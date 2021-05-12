@@ -57,6 +57,12 @@ try {
 
 function render(opts) {
   var output = argv.output || opts.output || getOutput()
+      console.log("ANTES DEL REPLACE");
+  output.replace("-pix_fmt yuv420p", "-pix_fmt yuv420p -crf 23")
+
+
+  console.log("DESPUES DEL REPLACE", output);
+  
   var audio = argv.audio || opts.audio
   var subtitles = argv.subtitles || opts.subtitles
   var size = argv.size || opts.size
@@ -72,11 +78,7 @@ function render(opts) {
   if (loop) video.loop(loop)
 
   
-    console.log("ANTES DEL REPLACE");
-  output.replace("-pix_fmt yuv420p", "-pix_fmt yuv420p -crf 23")
 
-
-  console.log("DESPUES DEL REPLACE", output);
 
 
   video
@@ -90,18 +92,7 @@ function render(opts) {
     .on('end', function () {
       echo('Video created:', output)
     })
-  
-  video
-    .save(output)
-    .on('error', error)
-    .on('start', function (command) {
-      if (argv.debug) {
-        echo('ffmpeg process started:', command)
-      }
-    })
-    .on('end', function () {
-      echo('Video created:', output)
-    })
+ 
 }
 
 function getOutput() {
