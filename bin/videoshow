@@ -71,6 +71,26 @@ function render(opts) {
   if (logo) video.logo(logo)
   if (loop) video.loop(loop)
 
+  
+    console.log("ANTES DEL REPLACE");
+  output.replace("-pix_fmt yuv420p", "-pix_fmt yuv420p -crf 23")
+
+
+  console.log("DESPUES DEL REPLACE", output);
+
+
+  video
+    .save(output)
+    .on('error', error)
+    .on('start', function (command) {
+      if (argv.debug) {
+        echo('ffmpeg process started changed:', command)
+      }
+    })
+    .on('end', function () {
+      echo('Video created:', output)
+    })
+  
   video
     .save(output)
     .on('error', error)
